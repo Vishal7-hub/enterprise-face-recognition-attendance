@@ -2,6 +2,8 @@ from fastapi import FastAPI
 
 from app.core.config import settings
 from app.core.logger import logger
+import app.models
+from app.db.session import Base,engine
 
 app = FastAPI(
     title=settings.APP_NAME,
@@ -12,6 +14,7 @@ app = FastAPI(
 
 @app.on_event("startup")
 async def startup():
+    Base.metadata.create_all(bind=engine)
     logger.info("Application Started Successfully")
 
 
