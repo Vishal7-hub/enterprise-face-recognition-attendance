@@ -4,12 +4,14 @@ from app.core.config import settings
 from app.core.logger import logger
 import app.models
 from app.db.session import Base,engine
+from app.api.employee import router as employee_router
 
 app = FastAPI(
     title=settings.APP_NAME,
     version=settings.APP_VERSION,
     description="Production-ready facial recognition attendance system.",
 )
+app.include_router(employee_router)
 
 
 @app.on_event("startup")
