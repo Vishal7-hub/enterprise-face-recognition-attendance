@@ -27,4 +27,17 @@ def find_by_employee_code(db:Session , employee_code : str,):
 
     )
 
+
+def update_employee_image_path(
+    db: Session,
+    employee: Employee,
+    image_path: str,
+):
+    employee.profile_image_path = image_path
+
+    db.commit()
+
+    db.refresh(employee)
+
+    return employee
     

@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-
+from pathlib import Path
 from app.core.config import settings
 from app.core.logger import logger
 import app.models
@@ -16,7 +16,14 @@ app.include_router(employee_router)
 
 @app.on_event("startup")
 async def startup():
-    Base.metadata.create_all(bind=engine)
+
+    Path(settings.UPLOAD_DIR).mkdir(
+        parents=True,
+        exist_ok=True,
+    )
+
+    logger.info("Upload folder ready")
+
     logger.info("Application Started Successfully")
 
 
