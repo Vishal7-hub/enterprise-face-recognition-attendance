@@ -5,12 +5,16 @@ from app.core.logger import logger
 import app.models
 from app.db.session import Base,engine
 from app.api.employee import router as employee_router
-
+from app.models.employee import Employee
+from app.models.face_embedding import FaceEmbedding
 app = FastAPI(
     title=settings.APP_NAME,
     version=settings.APP_VERSION,
     description="Production-ready facial recognition attendance system.",
 )
+
+Base.metadata.create_all(bind=engine)
+
 app.include_router(employee_router)
 
 

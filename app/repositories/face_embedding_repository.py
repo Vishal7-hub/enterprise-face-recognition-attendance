@@ -1,0 +1,22 @@
+from sqlalchemy.orm import Session
+
+from app.models.face_embedding import FaceEmbedding
+
+
+def create_face_embedding(
+    db: Session,
+    employee_id: int,
+    embedding: bytes,
+    model_name: str,
+):
+    db_embedding = FaceEmbedding(
+        employee_id=employee_id,
+        embedding=embedding,
+        model_name=model_name,
+    )
+
+    db.add(db_embedding)
+    db.commit()
+    db.refresh(db_embedding)
+
+    return db_embedding
