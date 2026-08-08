@@ -1,4 +1,6 @@
 import cv2
+import numpy as np
+
 from insightface.app import FaceAnalysis
 
 face_app = FaceAnalysis(
@@ -25,6 +27,24 @@ def generate_embedding(image_path: str):
     if len(faces) > 1:
         raise ValueError("Multiple faces detected")
 
-    embedding = faces[0].embedding
+    return faces[0].embedding
 
-    return embedding
+
+def embedding_from_bytes(embedding_bytes: bytes):
+
+    return np.frombuffer(
+        embedding_bytes,
+        dtype=np.float32,
+    )
+
+
+def cosine_similarity(
+    embedding1: np.ndarray,
+    embedding2: np.ndarray,
+):
+    embedding1 = embedding1 / np.linalg.norm(embedding1)
+    embedding2 = embedding2 / np.linalg.norm(embedding2)
+
+    return float(
+        np.dot(embedding1, embedding2)
+    )

@@ -20,3 +20,14 @@ def create_face_embedding(
     db.refresh(db_embedding)
 
     return db_embedding
+
+
+def get_embeddings_by_employee(
+    db: Session,
+    employee_id: int,
+):
+    return (
+        db.query(FaceEmbedding)
+        .filter(FaceEmbedding.employee_id == employee_id)
+        .all()
+    )
