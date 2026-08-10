@@ -31,3 +31,7 @@ def get_embeddings_by_employee(
         .filter(FaceEmbedding.employee_id == employee_id)
         .all()
     )
+
+
+def get_all_face_embeddings(db: Session):
+    return db.query(FaceEmbedding).all()

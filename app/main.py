@@ -5,6 +5,7 @@ from app.core.logger import logger
 import app.models
 from app.db.session import Base,engine
 from app.api.employee import router as employee_router
+from app.api.recognition import router as recognition_router
 from app.models.employee import Employee
 from app.models.face_embedding import FaceEmbedding
 app = FastAPI(
@@ -16,6 +17,7 @@ app = FastAPI(
 Base.metadata.create_all(bind=engine)
 
 app.include_router(employee_router)
+app.include_router(recognition_router)
 
 
 @app.on_event("startup")

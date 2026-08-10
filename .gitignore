@@ -1,0 +1,21 @@
+# Virtual environment
+.venv/
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# Uploaded employee images
+uploads/
+
+# Python cache
+__pycache__/
+*.py[cod]
+
+# Environment variables
+.env
+
+# IDE
+.vscode/
+.idea/
