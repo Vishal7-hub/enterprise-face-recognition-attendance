@@ -38,3 +38,27 @@ def create_attendance(
     db.refresh(attendance)
 
     return attendance
+
+
+def get_employee_attendance(
+    db: Session,
+    employee_id: int,
+):
+    return (
+        db.query(Attendance)
+        .filter(Attendance.employee_id == employee_id)
+        .order_by(Attendance.attendance_date.desc())
+        .all()
+    )
+
+
+def get_attendance_by_date(
+    db: Session,
+    attendance_date,
+):
+    return (
+        db.query(Attendance)
+        .filter(Attendance.attendance_date == attendance_date)
+        .order_by(Attendance.attendance_time.desc())
+        .all()
+    )
