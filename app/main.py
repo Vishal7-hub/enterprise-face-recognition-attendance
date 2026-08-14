@@ -9,6 +9,11 @@ from app.api.recognition import router as recognition_router
 from app.api.attendance import router as attendance_router
 from app.models.employee import Employee
 from app.models.face_embedding import FaceEmbedding
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
+
+
+
 app = FastAPI(
     title=settings.APP_NAME,
     version=settings.APP_VERSION,
@@ -20,7 +25,12 @@ Base.metadata.create_all(bind=engine)
 app.include_router(employee_router)
 app.include_router(recognition_router)
 app.include_router(attendance_router)
+app.mount("/frontend", StaticFiles(directory="frontend"), name="frontend")
 
+
+@app.get("/attendance")
+def attendance_page():
+    return FileResponse("frontend/index.html")
 
 @app.on_event("startup")
 async def startup():

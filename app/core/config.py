@@ -2,15 +2,15 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class Settings(BaseSettings):
-    APP_NAME: str 
-    APP_VERSION: str 
-    DEBUG: bool = True
+    APP_NAME: str
+    APP_VERSION: str
+    DEBUG: bool = False
     DATABASE_URL: str
     UPLOAD_DIR: str = "uploads/employees"
 
     model_config = SettingsConfigDict(
         env_file=".env",
-        case_sensitive=True
+        case_sensitive=True,
     )
 
 
