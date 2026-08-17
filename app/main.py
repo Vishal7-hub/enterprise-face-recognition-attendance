@@ -25,6 +25,7 @@ Base.metadata.create_all(bind=engine)
 app.include_router(employee_router)
 app.include_router(recognition_router)
 app.include_router(attendance_router)
+
 app.mount("/frontend", StaticFiles(directory="frontend"), name="frontend")
 
 

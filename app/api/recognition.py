@@ -43,6 +43,8 @@ def verify_face(
     return {
         "recognized": True,
         "employee_id": result["employee_id"],
+        "employee_code": result["employee_code"],
+        "employee_name": result["employee_name"],
         "similarity": result["similarity"],
     }
 
@@ -67,7 +69,7 @@ async def recognize_from_camera(
         image_path=str(temp_path),
     )
 
-    # No employee recognized
+    # Face not recognized
     if result is None:
         return {
             "recognized": False,
@@ -95,7 +97,9 @@ async def recognize_from_camera(
 
     return {
         "recognized": True,
-        "employee_id": employee_id,
+        "employee_id": result["employee_id"],
+        "employee_code": result["employee_code"],
+        "employee_name": result["employee_name"],
         "similarity": result["similarity"],
         "attendance": attendance_status,
     }

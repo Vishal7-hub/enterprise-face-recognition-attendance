@@ -5,305 +5,204 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Face Recognition Attendance</title>
+    <title>AI Face Recognition Attendance</title>
 
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: #f4f6f8;
-            text-align: center;
-            padding: 30px;
-        }
-
-        .container {
-            max-width: 800px;
-            margin: auto;
-            background: white;
-            padding: 25px;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-        }
-
-        h1 {
-            margin-bottom: 25px;
-        }
-
-        video {
-            width: 100%;
-            max-width: 640px;
-            border-radius: 10px;
-            background: black;
-            transform: scaleX(-1);
-        }
-
-        button {
-            margin-top: 20px;
-            padding: 12px 25px;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 16px;
-        }
-
-        #startBtn {
-            background: #198754;
-            color: white;
-        }
-
-        #stopBtn {
-            background: #dc3545;
-            color: white;
-            margin-left: 10px;
-        }
-
-        #status {
-            margin-top: 20px;
-            font-size: 18px;
-            font-weight: bold;
-        }
-    </style>
+    <link rel="stylesheet" href="/frontend/css/style.css">
 </head>
 
 <body>
 
-<div class="container">
-
-    <h1>Face Recognition Attendance</h1>
-
-    <video id="video" autoplay playsinline></video>
-
-    <br>
-
-    <button id="startBtn">Start Camera</button>
-    <button id="stopBtn">Stop Camera</button>
-
-    <div id="status">
-        Camera is stopped
+<header class="header">
+    <div class="header-content">
+        <h1>AI Face Recognition Attendance</h1>
+        <p>Automatic employee attendance using facial recognition</p>
     </div>
+</header>
+
+<main class="container">
+
+    <section class="main-grid">
+
+        <!-- Camera Section -->
+        <div class="card camera-card">
 
-</div>
+            <div class="card-header">
+                <div>
+                    <h2>Live Camera</h2>
+                    <p>Position your face inside the camera</p>
+                </div>
+
+                <span id="cameraIndicator" class="indicator offline">
+                    ● Offline
+                </span>
+            </div>
+
+            <div class="video-container">
+                <video
+                    id="video"
+                    autoplay
+                    playsinline>
+                </video>
+            </div>
 
+            <div class="buttons">
 
-<script>
+                <button
+                    id="startBtn"
+                    class="btn btn-success">
+                    Start Camera
+                </button>
 
-const video = document.getElementById("video");
-const statusText = document.getElementById("status");
+                <button
+                    id="stopBtn"
+                    class="btn btn-danger">
+                    Stop Camera
+                </button>
 
-let stream = null;
-let recognitionInterval = null;
-let isProcessing = false;
+            </div>
 
+            <div id="status" class="status info">
+                Camera is stopped
+            </div>
 
-/* Canvas is used to capture frames from webcam */
+        </div>
 
-const canvas = document.createElement("canvas");
 
+        <!-- Recognition Result -->
+        <div class="card result-card">
 
-/* Start Camera */
+            <div class="card-header">
+                <div>
+                    <h2>Recognition Result</h2>
+                    <p>Real-time employee verification</p>
+                </div>
+            </div>
 
-document.getElementById("startBtn").onclick = async () => {
+            <div
+                id="recognitionStatus"
+                class="status info">
+                Waiting for employee...
+            </div>
 
-    try {
+            <div class="details">
 
-        stream = await navigator.mediaDevices.getUserMedia({
-            video: true,
-            audio: false
-        });
+                <div class="detail-row">
+                    <span class="label">
+                        Employee ID
+                    </span>
 
-        video.srcObject = stream;
+                    <span
+                        id="employeeId"
+                        class="value">
+                        --
+                    </span>
+                </div>
 
-        statusText.innerText =
-            "Camera started - Looking for employee...";
 
+                <div class="detail-row">
+                    <span class="label">
+                        Employee Name
+                    </span>
 
-        /*
-         * Send one frame every 2 seconds
-         */
+                    <span
+                        id="employeeName"
+                        class="value">
+                        --
+                    </span>
+                </div>
 
-        recognitionInterval = setInterval(
-            sendFrame,
-            2000
-        );
 
-    } catch (error) {
+                <div class="detail-row">
+                    <span class="label">
+                        Similarity
+                    </span>
 
-        console.error(error);
+                    <span
+                        id="similarity"
+                        class="value">
+                        --
+                    </span>
+                </div>
 
-        statusText.innerText =
-            "Camera permission denied or unavailable.";
 
-    }
+                <div class="detail-row">
+                    <span class="label">
+                        Attendance
+                    </span>
 
-};
+                    <span
+                        id="attendance"
+                        class="value">
+                        --
+                    </span>
+                </div>
 
+            </div>
 
-/* Capture webcam frame and send it to backend */
+        </div>
 
-async function sendFrame() {
+    </section>
 
-    /*
-     * Prevent multiple requests from running
-     * at the same time.
-     */
 
-    if (isProcessing) {
-        return;
-    }
+    <!-- Today's Attendance -->
+    <section class="card attendance-card">
 
-    if (!video.videoWidth || !video.videoHeight) {
-        return;
-    }
+        <div class="card-header">
 
-    isProcessing = true;
+            <div>
+                <h2>Today's Attendance</h2>
 
+                <p>
+                    Attendance records for the recognized employee
+                </p>
+            </div>
 
-    /* Set canvas size equal to video */
+            <span class="attendance-badge">
+                Live
+            </span>
 
-    canvas.width = video.videoWidth;
-    canvas.height = video.videoHeight;
+        </div>
 
 
-    /* Draw current video frame */
+        <div id="attendanceTableContainer">
 
-    const context = canvas.getContext("2d");
+            <div class="empty-state">
 
-    context.drawImage(
-        video,
-        0,
-        0,
-        canvas.width,
-        canvas.height
-    );
+                <div class="empty-icon">
+                    📋
+                </div>
 
+                <p>
+                    No attendance records loaded.
+                </p>
 
-    /*
-     * Convert frame into JPEG
-     */
+                <span>
+                    Recognition will automatically load today's record.
+                </span>
 
-    canvas.toBlob(async (blob) => {
+            </div>
 
-        if (!blob) {
+        </div>
 
-            isProcessing = false;
-            return;
+    </section>
 
-        }
+</main>
 
 
-        const formData = new FormData();
+<footer class="footer">
 
-        formData.append(
-            "file",
-            blob,
-            "camera_frame.jpg"
-        );
+    <p>
+        AI Face Recognition Attendance System
+    </p>
 
+    <span>
+        Powered by InsightFace & FastAPI
+    </span>
 
-        try {
+</footer>
 
-            /*
-             * Send frame to FastAPI
-             */
 
-            const response = await fetch(
-                "/recognition/camera",
-                {
-                    method: "POST",
-                    body: formData
-                }
-            );
-
-
-            const data = await response.json();
-
-
-            console.log("Recognition response:", data);
-
-
-            /*
-             * Employee recognized
-             */
-
-            if (data.recognized) {
-
-                statusText.innerText =
-                    `Employee ID: ${data.employee_id}
-                     | ${data.attendance}`;
-
-            }
-
-            /*
-             * Face not recognized
-             */
-
-            else {
-
-                statusText.innerText =
-                    "Looking for employee...";
-
-            }
-
-
-        } catch (error) {
-
-            console.error(
-                "Recognition error:",
-                error
-            );
-
-            statusText.innerText =
-                "Unable to connect to recognition service.";
-
-        }
-
-
-        isProcessing = false;
-
-    }, "image/jpeg");
-
-}
-
-
-/* Stop Camera */
-
-document.getElementById("stopBtn").onclick = () => {
-
-    /*
-     * Stop recognition requests
-     */
-
-    if (recognitionInterval) {
-
-        clearInterval(
-            recognitionInterval
-        );
-
-        recognitionInterval = null;
-    }
-
-
-    /*
-     * Stop webcam
-     */
-
-    if (stream) {
-
-        stream.getTracks().forEach(
-            track => track.stop()
-        );
-
-        stream = null;
-    }
-
-
-    video.srcObject = null;
-
-    statusText.innerText =
-        "Camera stopped";
-
-};
-
-</script>
+<script src="/frontend/js/app.js"></script>
 
 </body>
 

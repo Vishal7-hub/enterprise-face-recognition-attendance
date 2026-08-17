@@ -1,0 +1,421 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+    background: #f5f7fb;
+    color: #1f2937;
+}
+
+
+/* =========================
+   HEADER
+========================= */
+
+.header {
+    background: #111827;
+    color: white;
+    padding: 22px 40px;
+}
+
+.header-content {
+    max-width: 1100px;
+    margin: auto;
+}
+
+.header h1 {
+    margin: 0;
+    font-size: 25px;
+}
+
+.header p {
+    margin: 7px 0 0;
+    color: #9ca3af;
+    font-size: 14px;
+}
+
+
+/* =========================
+   CONTAINER
+========================= */
+
+.container {
+    max-width: 1100px;
+    margin: 30px auto;
+    padding: 0 20px;
+}
+
+
+/* =========================
+   GRID
+========================= */
+
+.main-grid {
+    display: grid;
+
+    grid-template-columns:
+        minmax(0, 2fr)
+        minmax(300px, 1fr);
+
+    gap: 25px;
+}
+
+
+/* =========================
+   CARD
+========================= */
+
+.card {
+    background: white;
+
+    border-radius: 14px;
+
+    padding: 22px;
+
+    box-shadow:
+        0 4px 15px
+        rgba(0, 0, 0, 0.07);
+}
+
+.camera-card,
+.result-card {
+    min-height: 420px;
+}
+
+
+/* =========================
+   CARD HEADER
+========================= */
+
+.card-header {
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: flex-start;
+
+    margin-bottom: 18px;
+}
+
+.card-header h2 {
+    margin: 0;
+    font-size: 20px;
+}
+
+.card-header p {
+    margin: 5px 0 0;
+
+    color: #6b7280;
+
+    font-size: 13px;
+}
+
+
+/* =========================
+   CAMERA
+========================= */
+
+.video-container {
+    position: relative;
+
+    overflow: hidden;
+
+    border-radius: 12px;
+
+    background: #000;
+}
+
+video {
+    display: block;
+
+    width: 100%;
+
+    min-height: 300px;
+
+    max-height: 420px;
+
+    object-fit: cover;
+
+    transform: scaleX(-1);
+}
+
+
+/* =========================
+   BUTTONS
+========================= */
+
+.buttons {
+    margin-top: 16px;
+}
+
+.btn {
+    border: none;
+
+    padding: 11px 20px;
+
+    border-radius: 7px;
+
+    cursor: pointer;
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+    margin-right: 8px;
+
+    transition: 0.2s;
+}
+
+.btn:hover {
+    opacity: 0.9;
+
+    transform: translateY(-1px);
+}
+
+.btn-success {
+    background: #198754;
+    color: white;
+}
+
+.btn-danger {
+    background: #dc3545;
+    color: white;
+}
+
+
+/* =========================
+   STATUS
+========================= */
+
+.status {
+    margin-top: 18px;
+
+    padding: 13px 15px;
+
+    border-radius: 8px;
+
+    font-size: 14px;
+
+    font-weight: 600;
+}
+
+.status.info {
+    background: #dbeafe;
+    color: #1e40af;
+}
+
+.status.success {
+    background: #dcfce7;
+    color: #166534;
+}
+
+.status.warning {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+
+/* =========================
+   CAMERA INDICATOR
+========================= */
+
+.indicator {
+    padding: 6px 10px;
+
+    border-radius: 20px;
+
+    font-size: 12px;
+
+    font-weight: bold;
+}
+
+.indicator.online {
+    background: #dcfce7;
+    color: #166534;
+}
+
+.indicator.offline {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+
+/* =========================
+   DETAILS
+========================= */
+
+.details {
+    margin-top: 20px;
+}
+
+.detail-row {
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    padding: 15px 0;
+
+    border-bottom:
+        1px solid #e5e7eb;
+}
+
+.detail-row:last-child {
+    border-bottom: none;
+}
+
+.label {
+    color: #6b7280;
+
+    font-size: 14px;
+}
+
+.value {
+    font-weight: bold;
+
+    text-align: right;
+}
+
+
+/* =========================
+   ATTENDANCE
+========================= */
+
+.attendance-card {
+    margin-top: 25px;
+}
+
+.attendance-badge {
+    background: #dcfce7;
+
+    color: #166534;
+
+    padding: 6px 11px;
+
+    border-radius: 20px;
+
+    font-size: 12px;
+
+    font-weight: bold;
+}
+
+
+/* =========================
+   TABLE
+========================= */
+
+.attendance-table {
+    width: 100%;
+
+    border-collapse: collapse;
+
+    margin-top: 15px;
+}
+
+.attendance-table th {
+    text-align: left;
+
+    padding: 13px;
+
+    background: #f9fafb;
+
+    color: #6b7280;
+
+    font-size: 13px;
+}
+
+.attendance-table td {
+    padding: 13px;
+
+    border-bottom:
+        1px solid #e5e7eb;
+
+    font-size: 14px;
+}
+
+.present {
+    color: #198754;
+
+    font-weight: bold;
+}
+
+
+/* =========================
+   EMPTY STATE
+========================= */
+
+.empty-state {
+    text-align: center;
+
+    padding: 35px 20px;
+
+    color: #6b7280;
+}
+
+.empty-icon {
+    font-size: 35px;
+
+    margin-bottom: 10px;
+}
+
+.empty-state p {
+    margin: 5px 0;
+
+    font-weight: 600;
+}
+
+.empty-state span {
+    font-size: 13px;
+}
+
+
+/* =========================
+   FOOTER
+========================= */
+
+.footer {
+    text-align: center;
+
+    padding: 30px 20px;
+
+    color: #6b7280;
+
+    font-size: 13px;
+}
+
+.footer p {
+    margin: 0 0 5px;
+
+    font-weight: 600;
+}
+
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 800px) {
+
+    .main-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .header {
+        padding: 20px;
+    }
+
+    .container {
+        margin-top: 20px;
+    }
+
+    video {
+        min-height: 250px;
+    }
+}

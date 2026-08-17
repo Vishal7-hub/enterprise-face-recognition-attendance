@@ -3,8 +3,10 @@ from sqlalchemy.orm import Session
 from app.models.employee import Employee
 from app.schemas.employee import EmployeeCreate
 
-def create_employee( db: Session, employee:EmployeeCreate,
 
+def create_employee(
+    db: Session,
+    employee: EmployeeCreate,
 ):
     db_employee = Employee(
         employee_code=employee.employee_code,
@@ -21,10 +23,26 @@ def create_employee( db: Session, employee:EmployeeCreate,
 
     return db_employee
 
-def find_by_employee_code(db:Session , employee_code : str,):
-    return(
-        db.query(Employee).filter(Employee.employee_code==employee_code).first()
 
+def find_by_employee_code(
+    db: Session,
+    employee_code: str,
+):
+    return (
+        db.query(Employee)
+        .filter(Employee.employee_code == employee_code)
+        .first()
+    )
+
+
+def find_by_employee_id(
+    db: Session,
+    employee_id: int,
+):
+    return (
+        db.query(Employee)
+        .filter(Employee.id == employee_id)
+        .first()
     )
 
 
@@ -40,4 +58,3 @@ def update_employee_image_path(
     db.refresh(employee)
 
     return employee
-    

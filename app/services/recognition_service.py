@@ -1,8 +1,11 @@
-from pathlib import Path
-
 from app.repositories.face_embedding_repository import (
     get_all_face_embeddings,
 )
+
+from app.repositories.employee_repository import (
+    find_by_employee_id,
+)
+
 from app.services.face_service import (
     generate_embedding,
     embedding_from_bytes,
@@ -42,10 +45,23 @@ def recognize_face(
             best_score = score
             best_match = record
 
+    
+
     if best_score < MATCH_THRESHOLD:
         return None
 
+    # Get employee details
+    employee = find_by_employee_id(
+        db=db,
+        employee_id=best_match.employee_id,
+    )
+
+    if not employee:
+        return None
+
     return {
-        "employee_id": best_match.employee_id,
+        "employee_id": employee.id,
+        "employee_code": employee.employee_code,
+        "employee_name": employee.name,
         "similarity": best_score,
     }
